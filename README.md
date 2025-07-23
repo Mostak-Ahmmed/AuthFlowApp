@@ -2,6 +2,10 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 # Getting Started
 
+
+<img width="407" height="682" alt="image" src="https://github.com/user-attachments/assets/3c3039a8-58a3-448e-8997-fff541d1fb48" />
+
+
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
 ## Step 1: Start Metro
