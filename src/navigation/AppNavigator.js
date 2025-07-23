@@ -1,29 +1,58 @@
-// src/navigation/AppNavigator.jsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useSelector } from 'react-redux';
+import { createStackNavigator } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
 import SplashScreen from '../screens/SplashScreen';
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import HomeScreen from '../screens/HomeScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import PostFeedScreen from '../screens/PostFeedScreen';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
-export default function AppNavigator() {
-  const { userToken, isLoading } = useSelector((state) => state.auth);
+const AppNavigator = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [userToken, setUserToken] = useState(null);
 
-  if (isLoading) return <SplashScreen />;
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        setUserToken(token);
+      } catch (e) {
+        console.log('Error reading token', e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkToken();
+  }, []);
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         {userToken ? (
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen name="Posts" component={PostFeedScreen} />
+          </>
         ) : (
-          <Stack.Screen name="Login" component={LoginScreen} />
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
+
+export default AppNavigator;

@@ -1,30 +1,26 @@
-// src/screens/SplashScreen.jsx
-import React, { useEffect } from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { login, setLoading } from '../redux/authSlice';
-import { getToken } from '../utils/storage';
+import React from 'react';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 
-export default function SplashScreen() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const checkLogin = async () => {
-      const token = await getToken();
-      if (token) dispatch(login(token));
-      else dispatch(setLoading(false));
-    };
-
-    checkLogin();
-  }, []);
-
+const SplashScreen = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="blue" />
+      <ActivityIndicator size="large" color="#4f46e5" />
+      <Text style={styles.text}>Loading...</Text>
     </View>
   );
-}
+};
+
+export default SplashScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center' },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#333',
+  },
 });

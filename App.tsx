@@ -1,4 +1,5 @@
 // App.jsx or App.tsx
+import 'react-native-gesture-handler'; // 👈 MUST be first import!
 import React from 'react';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
